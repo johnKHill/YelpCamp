@@ -24,3 +24,19 @@ Each Campground has:
 # Style the Navbar and form
 * Add a navbar to all templates
 * Style the new campground form
+
+# MongoDB Commands with CRUD
+* mongod
+* mongo
+* help
+* show dbs
+* use
+* insert
+* find
+* update
+* remove
+
+# Mongoose (used for object data mapping - ODM / for data persistence)
+* Install and configure mongoose
+* Setup campground model
+* Use campground model inside of the routes
