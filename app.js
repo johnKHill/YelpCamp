@@ -9,51 +9,56 @@ mongoose.connect("mongodb://localhost/yelp_camp", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs");
 
+
+
 // SCHEMA SETUP
 var campgroundSchema = new mongoose.Schema({
   name: String,
-  image: String
+  image: String,
+  description: String
 });
 
 var Campground = mongoose.model("Campground", campgroundSchema);
 
 // Campground.create({
-//   name: "Granite Hill",
-//   image: "https://t3.ftcdn.net/jpg/01/39/96/74/240_F_139967465_IZ0RKkXvEKoGknrkjWxbX7Gyo1DYZbZh.jpg"
-// },
+//     name: "Granite Hill",
+//     image: "https://t4.ftcdn.net/jpg/01/29/23/51/240_F_129235127_S4R15bEiRt6fFvY9oPguaSWTCGceFNAY.jpg",
+//     description: "This is a hige granite hill, no bathrooms. No water. Beautiful granite!"
+//   },
 //   function(err, campground) {
-//     if(err) {
+//     if (err) {
 //       console.log(err);
 //     } else {
-//       console.log("NEWLY CREATED CAMPGROUND");
-//       console.log(campground)
+//       console.log("NEWLY CREATED CAMPGROUND: ");
+//       console.log(campground);
 //     }
 //   });
 
 
-
-// Restful Routes
+// RESTFUL ROUTES
 app.get("/", function(req, res) {
   res.render("landing");
 })
 
+// INDEX - show all campgrounds
 app.get("/campgrounds", function(req, res) {
   // Get all campgrounds from DB
   Campground.find({}, function(err, allCampgrounds) {
     if (err) {
       console.log(err);
     } else {
-      res.render("campgrounds", { campgrounds:allCampgrounds });
+      res.render("index", { campgrounds:allCampgrounds });
     }
   });
 });
 
-// Make the new campground
+// CREATE - add new campground to DB
 app.post("/campgrounds", function(req, res) {
   // get data from form and add to campgrounds array
   var name = req.body.name;
   var image = req.body.image;
-  var newCampground = { name: name, image: image };
+  var desc = req.body.description;
+  var newCampground = { name: name, image: image, description: desc };
   //Create a new campground and save to DB
   Campground.create(newCampground, function(err, newlyCreated) {
     if (err) {
@@ -65,12 +70,24 @@ app.post("/campgrounds", function(req, res) {
   });
 });
 
-// Shows the form
+// NEW - show form to create a new campground
 app.get("/campgrounds/new", function(req, res) {
   res.render("new.ejs");
 });
 
-
+// SHOW - shows more info about one campground
+app.get("/campgrounds/:id", function(req, res) {
+  // find campground with provided ID
+  Campground.findById(req.params.id, function(err, foundCampground) {
+    if (err){
+      console.log(err);
+    } else {
+      // render show template with that campground
+      res.render("show", { campground: foundCampground });
+    }
+  });
+  req.params.id
+});
 
 
 

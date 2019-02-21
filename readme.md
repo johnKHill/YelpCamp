@@ -36,7 +36,20 @@ Each Campground has:
 * update
 * remove
 
-# Mongoose (used for object data mapping - ODM / for data persistence)
+# Add Mongoose (used for object data mapping - ODM / for data persistence)
 * Install and configure mongoose
 * Setup campground model
 * Use campground model inside of the routes
+
+# Show Page
+* Add a description to the campground model
+* Show db.collection.drop()
+* Add a show route/templete
+
+# RESTFUL ROUTES
+name       url         verb     desc.
+===============================================================
+INDEX     /dogs        GET       Display a list of all dogs
+NEW       /dogs/new    GET       Display form to make a new dog
+CREATE    /dogs        POST      Add new dog DB
+Show      /dogs/:id    GET       Shows info about one dog
